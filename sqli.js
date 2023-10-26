@@ -1,5 +1,5 @@
 
-var worker = new Worker("./worker.sql-wasm.js");
+var worker = new Worker("./sql-wasm.js");
 worker.onerror = error;
 
 // Open a database
