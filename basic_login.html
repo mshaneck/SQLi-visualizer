@@ -1,0 +1,61 @@
+<meta charset="utf8" />
+<html>
+    <head>
+        <script src='./sql-wasm.js'></script>
+        <link rel="stylesheet" href="/prism.css" data-noprefix />
+        <script src="/prism.js"> </script>
+        <link rel="stylesheet" href="sqli.css">
+
+
+</head>
+<body>
+  
+    <h1>SQL Injection Visualizer - Basic Login Bypass</h1>
+
+    <main>
+        <table>
+            <tr>
+                <td><label for='username'>Username</label></td>
+                <td><input type=text id=username name=username/></td>
+            </tr>
+            <tr>
+                <td><label for='password'>Password</label></td>
+                <td><input type=text id=password name=password/></td>
+            </tr>
+        </table>
+      
+      <br>
+      <br>
+      <div id="query" class="query"></div>
+
+      <div id="error" class="error"></div>
+  
+      <div id="results" style="clear:both;">SQL query results displayed here</div>
+      
+      
+    <div style="clear:both;">
+      <H2>Recommended values</H2>
+      <ul>
+        <li>
+            Username: admin<br>
+            Password: password' or 1=0+'1
+        </li>
+      </ul>
+      </div>
+    </main>
+
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div>
+    <a href="./index.html">Return to main page.</a>
+    </div>
+
+    <script src='./sqli.js'></script>
+</body>
+
+</html>
