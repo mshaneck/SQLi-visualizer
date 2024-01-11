@@ -43,14 +43,13 @@ function runQuery(query_string){
     var stmt;
     
     try{
-        console.log("Preparing query:");
-        console.log(query_string);
-        console.log(window.db);
+        //console.log("Preparing query:");
+        //console.log(query_string);
         stmt = window.db.prepare(query_string);
-        console.log("Query prepared.");
+        //console.log("Query prepared.");
         var rows = 0;
         var resultString = "<div>";
-        console.log("Showing results.");
+        //console.log("Showing results.");
         while (stmt.step()) { //
             var row = stmt.getAsObject();
             console.log('Here is a row: ' + JSON.stringify(row));
@@ -60,13 +59,16 @@ function runQuery(query_string){
         resultString += "</div><br>";
         resultsElem.innerHTML = resultString;
         if (rows == 0){
-            console.log("No rows returned.")
+            //console.log("No rows returned.")
             resultsElem.textContent = "NO ROWS RETURNED";
+            return {"results": false};
         }
+        return {"results": true, "password": row['password']};
     }
     catch(err){
         error("Error in SQL query");
         resultsElem.textContent = "ERROR";
+        return {"results": false};
     }
 }
 
@@ -81,6 +83,24 @@ function runLoginQuery(){
     runQuery(query_string);
 }
 
+function runAdvLoginQuery(){
+    console.log("Running advanced query");
+    var query_string = "SELECT username, password, email FROM users WHERE username='" + document.getElementById('advusername').value + "';";
+    var password = document.getElementById("advpassword").value;
+    var results = runQuery(query_string);
+    //console.log(results);
+    if (results["results"]){
+        //console.log("SQL query returned results. Checking password");
+        //console.log(results['password']);
+        //console.log(password);
+        if (results["password"] == password){ 
+            resultsElem.innerHTML += "\n<br>Logged in successfully";
+            return;
+        }
+    }
+    resultsElem.innerHTML += "\n<br>Not logged in";
+}
+
 function error(e) {
 	console.log(e);
 	resultsElem.textContent = e;
@@ -89,6 +109,10 @@ function error(e) {
 if (document.getElementById("username")){
     document.getElementById("username").addEventListener("keyup", runLoginQuery);
     document.getElementById("password").addEventListener("keyup", runLoginQuery);
+}
+if (document.getElementById("advusername")){
+    document.getElementById("advusername").addEventListener("keyup", runAdvLoginQuery);
+    document.getElementById("advpassword").addEventListener("keyup", runAdvLoginQuery);
 }
 if (document.getElementById("product")){
     document.getElementById("product").addEventListener("keyup", runProductQuery);
